@@ -46,3 +46,31 @@ riyadh_urls.txt
 report-generator-2-1.html
 test_flow.mjs
 todomvc-screenshot.png
+
+# Unrelated project: Database Reactivation Workflow
+.claude/
+.idx/
+.kimchi/
+.github/
+reactivation-package/
+The Mega Skills/
+content skills/
+data/
+docs/
+tools/
+workflows/
+tests/
+CLAUDE.md
+README.md
+SKILL.md
+database_reactivation (1).md
+build_demo_showcase.py
+build_showcase_standalone.py
+config.py
+guardrail.py
+main.py
+modal_dashboard.py
+planner.py
+requirements.txt
+state.py
+*.bak
