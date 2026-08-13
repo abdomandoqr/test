@@ -4,6 +4,8 @@ node_modules/
 # Environment secrets
 .env
 .env.*.local
+credentials.json
+token.json
 
 # OS files
 .DS_Store
@@ -18,30 +20,12 @@ logs/
 .idea/
 *.swp
 *.swo
+*~
 
 # Temporary files
 tmp/
 temp/
-
-# Unrelated projects/experiments on this machine
-.playwright-mcp/
-.idx/
-.kimchi/
-temporary-screenshots/
-ai-transformation-workshop/
-alnoor-dental-clinic/
-webstie strategy/
-
-# Prospecting output files (not part of the bot codebase)
-prospects-*.md
-riyadh-*.md
-riyadh-*.txt
-riyadh_urls.txt
-
-# Misc test/demo files
-report-generator-2-1.html
-test_flow.mjs
-todomvc-screenshot.png
+.tmp/
 
 # Unrelated projects/experiments on this machine
 .playwright-mcp/
