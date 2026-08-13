@@ -3,40 +3,31 @@
  *
  * - Loads environment from .env FIRST
  * - Then dynamically imports config (after env is loaded)
- * - Starts Telegram polling
- * - Exports for testability
+ * - Local dev: polling (when WEBHOOK_URL is unset)
+ * - Production (Vercel): webhook mode — api/telegram.js calls bot.processUpdate()
  */
 
 import dotenv from 'dotenv';
-
-// Load .env BEFORE any other imports that read process.env
 dotenv.config();
 
-// Now dynamically import modules that depend on env vars
-let config, startPolling;
+let config;
 await import('./config.js').then(m => { config = m.config; });
-await import('./services/telegramService.js').then(m => { startPolling = m.startPolling; });
-await import('./bot.js'); // registers bot.on('message') and bot.on('callback_query') listeners
+await import('./bot.js'); // registers bot.on('message') / bot.on('callback_query')
 
-console.log('🦷 Dental Bot — Phase 3');
+const { bot } = await import('./services/telegramService.js');
+
+console.log('🦷 Dental Bot — Phase 5 (webhook-ready)');
 console.log(`   Environment: ${config.env}`);
-console.log(`   Model:       ${config.gemini.model}`);
-console.log('   Ready. Waiting for approval to start polling...');
 
-// The user must explicitly call start() after confirming environment is set up.
-// This prevents accidental startup before TELEGRAM_BOT_TOKEN is configured.
-
-export async function start() {
-    console.log('▶ Starting bot...');
-    await startPolling();
-    console.log('✅ Bot polling started. Listening for messages.');
+if (!process.env.WEBHOOK_URL && config.env !== 'test') {
+    bot.startPolling()
+        .then(() => console.log('✅ Bot polling started (local dev mode)'))
+        .catch((err) => {
+            console.error('❌ Failed to start polling:', err.message);
+            process.exit(1);
+        });
+} else if (process.env.WEBHOOK_URL) {
+    console.log(`   Webhook mode active: ${process.env.WEBHOOK_URL}`);
 }
 
-// If NODE_ENV !== 'test', start automatically on import
-// This allows the test runner to control startup.
-if (config.env !== 'test') {
-    start().catch((err) => {
-        console.error('❌ Failed to start bot:', err.message);
-        process.exit(1);
-    });
-}
+export { bot };
