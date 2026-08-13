@@ -1,0 +1,38 @@
+{
+  "name": "dental-bot",
+  "version": "0.1.0",
+  "description": "Dental clinic appointment bot — Phase 1 skeleton",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "seed:slots": "node scripts/seed_demo_slots.mjs",
+    "test:gemini": "node scripts/test-gemini.js",
+    "test:supabase": "node scripts/test-supabase.js",
+    "reminders": "node scripts/send_reminders.mjs",
+    "prospects": "node scripts/find-dental-prospects.mjs",
+    "test": "node --test --experimental-test-module-mocks test/*.test.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0",
+    "@supabase/supabase-js": "^2.49.0",
+    "dotenv": "^16.5.0",
+    "node-telegram-bot-api": "^1.2.0",
+    "pg": "^8.22.0",
+    "playwright": "^1.62.1",
+    "ws": "^8.21.3"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "playwright-core": "^1.62.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [],
+  "author": ""
+}
