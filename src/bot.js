@@ -274,6 +274,11 @@ bot.on('callback_query', async (query) => {
                     await handleUnavailableSlot('slot_unique_violation');
                     return;
                 }
+                if (/idx_appointments_one_active_per_patient/i.test(createErr.message)) {
+                    await editMessageText(chatId, query.message.message_id, t('activeAppointmentExists', lang), []);
+                    await bot.answerCallbackQuery(query.id, { text: t('activeAppointmentExists', lang), show_alert: true });
+                    return;
+                }
                 throw createErr;
             }
 

@@ -176,6 +176,17 @@ const handler = {
         return sendInlineKeyboard(chatId, messageText, buttons);
     },
 
+    async status(chatId, userId, lang) {
+        if (!userId) {
+            return sendMessage(chatId, t('askName', lang));
+        }
+        const active = await supabase.findNextActiveAppointment(userId);
+        if (!active) {
+            return sendMessage(chatId, t('noAppointments', lang));
+        }
+        const summary = buildAppointmentSummaryText(active, lang);
+        return sendMessage(chatId, summary);
+    },
     async reschedule(chatId, userId, lang, ctx = {}) {
         if (!userId) {
             return sendMessage(chatId, t('welcome', lang));

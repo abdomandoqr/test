@@ -37,6 +37,7 @@ INTENT CLASSIFICATION:
 - info: User asks about hours, services, address, what to bring, emergency, or general clinic info.
 - cancel: User wants to cancel an existing appointment.
 - reschedule: User wants to reschedule.
+- status: User asks about their current/existing appointment details (e.g. "what is my appointment", "ما هو موعدي", "متى موعدي") without wanting to book, cancel, or reschedule.
 - other: Short acks, greetings, small talk, unclear.
 
 For info, set "info_topic" to ONE of: "hours", "services", "address", "first_visit", "emergency", or "general".
@@ -45,7 +46,7 @@ MEDICAL QUESTIONS:
 - NEVER answer medical questions. Escalate to clinic staff.
 
 INTENT JSON FORMAT (append at end of reply):
-{ "intent": "book|cancel|reschedule|info|other", "info_topic": "hours|services|address|first_visit|emergency|general", "appointment_type": "checkup|cleaning|extraction|filling|orthodontics" }
+{ "intent": "book|cancel|reschedule|status|info|other", "info_topic": "hours|services|address|first_visit|emergency|general", "appointment_type": "checkup|cleaning|extraction|filling|orthodontics" }
 - Only set intent to "book" when the user clearly requests a booking with intent to confirm.
 - For ack messages, set intent="other".
 - For "book" to be valid, the message MUST contain explicit booking language. A bare "ok",
@@ -119,7 +120,7 @@ ${ctx.conversationHistory}
     if (jsonMatch) {
         try {
             const parsed = JSON.parse(jsonMatch[0]);
-            if (parsed.intent && ['book', 'cancel', 'reschedule', 'info', 'other'].includes(parsed.intent)) {
+            if (parsed.intent && ['book', 'cancel', 'reschedule', 'status', 'info', 'other'].includes(parsed.intent)) {
                 intent = parsed;
             }
             if (!intent.info_topic) intent.info_topic = 'general';

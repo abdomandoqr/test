@@ -70,6 +70,10 @@ const snippets = {
         ar: 'عذراً، هذا الموعد لم يعد متاحاً. يرجى اختيار موعد آخر.',
         en: 'Sorry, this slot is no longer available. Please choose another one.',
     },
+    activeAppointmentExists: {
+        ar: 'لديك حجز نشط بالفعل. يرجى إلغاؤه أو إعادة جدولته أولاً قبل حجز موعد جديد.',
+        en: 'You already have an active appointment. Please cancel or reschedule it first before booking a new one.',
+    },
     cancelled: {
         ar: '❌ تم إلغاء الحجز.',
         en: '❌ Booking cancelled.',

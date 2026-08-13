@@ -129,10 +129,15 @@ export async function handleMessage(msg) {
                 return;
             }
 
+            if (intent.intent === 'status') {
+                await route(chatId, patient.id, 'status', lang, { text, slots, reply });
+                return;
+            }
+
             await supabase.appendMessage(chatId, 'user', text);
             await supabase.appendMessage(chatId, 'assistant', reply);
 
-            if (['book', 'cancel', 'reschedule', 'info'].includes(intent.intent)) {
+            if (['book', 'cancel', 'reschedule', 'status', 'info'].includes(intent.intent)) {
                 await route(chatId, patient.id, intent.intent, lang, { text, slots, reply });
             } else {
                 await sendMessage(chatId, reply);
