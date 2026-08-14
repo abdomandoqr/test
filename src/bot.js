@@ -29,7 +29,7 @@ function formatSlotDate(iso) {
 
 // Normalized inbound message shape for future multi-channel adapter:
 // { channel: 'telegram', senderId: chatId, text: msg.text, raw: msg }
-bot.on('message', async (msg) => {
+export async function handleTelegramMessage(msg) {
     console.log('📩 Received message: chat_id=*** text_len=', msg.text?.length);
     try {
         await handleMessage(msg);
@@ -37,7 +37,9 @@ bot.on('message', async (msg) => {
         console.error('❌ bot.on(message) error:', err.message);
         console.error(err.stack);
     }
-});
+}
+
+bot.on('message', (msg) => handleTelegramMessage(msg));
 
 const CONFIRM_RE = /^confirm:([^:]+):([^:]+)$/;
 const CANCEL_RE = /^cancel:([^:]+)$/;
@@ -49,7 +51,7 @@ const CONFIRM_RESCHEDULE_RE = /^crs:([^:]+)$/;
 // Telegram-specific channel adapter boundary: callback queries are a
 // Telegram-only interaction concept. A future WhatsApp adapter would
 // translate its equivalent interactions into the same handler entry points.
-bot.on('callback_query', async (query) => {
+export async function handleTelegramCallback(query) {
     const data = query.data;
     const chatId = query.message.chat.id.toString();
     const lang = detectLanguage(query.message.text || '');
@@ -344,4 +346,6 @@ bot.on('callback_query', async (query) => {
             // best-effort error handling
         }
     }
-});
+}
+
+bot.on('callback_query', (query) => handleTelegramCallback(query));
