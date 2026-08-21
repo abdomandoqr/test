@@ -74,3 +74,5 @@ planner.py
 requirements.txt
 state.py
 *.bak
+.vercel
+.env*
